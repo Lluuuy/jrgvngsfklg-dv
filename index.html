@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,6 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js"></script>
     <style>
-        /* Все стили остаются без изменений */
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -15,7 +14,7 @@
             color: #333;
             background-color: #f5f5f5;
         }
-        
+
         .header {
             background: linear-gradient(135deg, #003366 0%, #001a33 100%);
             color: white;
@@ -23,23 +22,303 @@
             text-align: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        
-        /* ... остальные стили ... */
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .tagline {
+            font-size: 16px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .marquee {
+            background-color: #000;
+            color: #fff;
+            padding: 12px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 20s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .product-section {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+            .product-section:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            }
+
+        .model-viewer {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            background: linear-gradient(to bottom, #f0f8ff, #e6f2ff);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #model-container {
+            width: 100%;
+            height: 400px;
+            background-color: #e6e6e6;
+            border: 2px solid #003366;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .model-controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .model-btn {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+            .model-btn:hover {
+                background-color: #004080;
+                transform: translateY(-2px);
+            }
+
+        .product-info {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+        }
+
+        .product-title {
+            font-size: 24px;
+            color: #003366;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+            .product-title:after {
+                content: '';
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                width: 50px;
+                height: 3px;
+                background-color: #003366;
+                transition: width 0.3s;
+            }
+
+            .product-title:hover:after {
+                width: 100%;
+            }
+
+        .product-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .product-features {
+            margin-bottom: 25px;
+            padding: 0;
+        }
+
+            .product-features li {
+                margin-bottom: 10px;
+                list-style-type: none;
+                position: relative;
+                padding-left: 30px;
+                transition: transform 0.2s;
+            }
+
+                .product-features li:hover {
+                    transform: translateX(5px);
+                }
+
+                .product-features li:before {
+                    content: "✓";
+                    color: #003366;
+                    position: absolute;
+                    left: 0;
+                    font-weight: bold;
+                }
+
+        .price-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid #003366;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 51, 102, 0.2);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 51, 102, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 51, 102, 0);
+            }
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #003366;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .discount-badge {
+            background-color: #ff3333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 16px;
+            display: inline-block;
+            margin-left: 10px;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-5px);
+            }
+        }
+
+        .buy-button {
+            background: linear-gradient(135deg, #003366 0%, #004080 100%);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .buy-button:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            }
+
+            .buy-button:active {
+                transform: translateY(1px);
+            }
+
+            .buy-button:after {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -60%;
+                width: 200%;
+                height: 200%;
+                background: rgba(255,255,255,0.1);
+                transform: rotate(30deg);
+                transition: all 0.3s;
+            }
+
+            .buy-button:hover:after {
+                left: 100%;
+            }
+
+        .loading-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #003366;
+            font-weight: bold;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #000 0%, #222 100%);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .product-section {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Вся HTML-разметка остаётся без изменений -->
     <div class="header">
         <div class="logo">GuitarStand Pro</div>
         <div class="tagline">Надёжное решение для ваших инструментов</div>
     </div>
-    
+
     <div class="marquee">
         <div class="marquee-content">
-            🔥 Специальное предложение: скидка 20% на все модели до конца месяца! 🔥
+            🔥 Специальное предложение: скидка 20% на все модели до конца месяца! 🔥 Используйте промокод STAND20 при оформлении заказа. 🔥 Бесплатная доставка по всей стране! 🔥 Гарантия 2 года на все продукты! 🔥
         </div>
     </div>
-    
+
     <div class="container">
         <div class="product-section">
             <div class="model-viewer">
@@ -51,65 +330,85 @@
                     <button class="model-btn" id="reset-model">Сбросить вид</button>
                 </div>
             </div>
-            
-            <!-- ... остальная HTML-разметка ... -->
+
+            <div class="product-info">
+                <h1 class="product-title">Профессиональная стойка для гитар GS-200</h1>
+                <p class="product-description">
+                    Инновационная стойка для гитар с регулируемой высотой и системой защиты грифа.
+                    Идеальное решение для музыкантов, ценящих безопасность и удобство хранения своих инструментов.
+                </p>
+
+                <ul class="product-features">
+                    <li>Прочная стальная конструкция с антикоррозийным покрытием</li>
+                    <li>Мягкие противоскользящие прокладки для защиты инструмента</li>
+                    <li>Регулируемая высота под любые типы гитар</li>
+                    <li>Компактная складная конструкция</li>
+                    <li>Подходит для электрогитар, акустических гитар и бас-гитар</li>
+                </ul>
+
+                <div class="price-container">
+                    <div class="price">
+                        <span class="old-price">4 999 ₽</span>
+                        3 999 ₽
+                        <span class="discount-badge">-20%</span>
+                    </div>
+                    <button class="buy-button">Купить сейчас</button>
+                </div>
+            </div>
         </div>
     </div>
-    
+
     <div class="footer">
         <p>© 2023 GuitarStand Pro. Все права защищены.</p>
+        <p>Телефон: +7 (123) 456-78-90 | Email: info@guitarstandpro.ru</p>
     </div>
-    
+
     <script>
         // Инициализация 3D-модели
         let scene, camera, renderer, controls, guitarStand, autoRotate = false;
-        
+
         function init3DModel() {
             // Создаем сцену
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0xf0f8ff);
-            
+
             // Создаем камеру
             camera = new THREE.PerspectiveCamera(75, document.getElementById('model-container').clientWidth / 400, 0.1, 1000);
             camera.position.z = 5;
-            
+
             // Создаем рендерер
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(document.getElementById('model-container').clientWidth, 400);
             document.getElementById('model-container').innerHTML = '';
             document.getElementById('model-container').appendChild(renderer.domElement);
-            
+
             // Добавляем освещение
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
             scene.add(ambientLight);
-            
+
             const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
             directionalLight.position.set(1, 1, 1);
             scene.add(directionalLight);
-            
-            // Загружаем 3D-модель
+
+            // Загружаем вашу 3D-модель из файла Сборка.glb
             const loader = new THREE.GLTFLoader();
             loader.load(
-                'Сборка.glb',
+                'Сборка.glb', // Убедитесь, что файл находится в той же папке, что и HTML
                 function (gltf) {
                     guitarStand = gltf.scene;
-                    
-                    // Уменьшаем модель в 3 раза
-                    guitarStand.scale.set(0.33, 0.33, 0.33);
-                    
                     scene.add(guitarStand);
-                    
-                    // Центрируем модель
+
+                    // Центрируем и масштабируем модель
                     const box = new THREE.Box3().setFromObject(guitarStand);
                     const center = box.getCenter(new THREE.Vector3());
                     const size = box.getSize(new THREE.Vector3());
-                    
+
                     // Настраиваем камеру
                     camera.position.z = size.length() * 1.5;
                     controls.target.copy(center);
                     controls.update();
-                    
-                    // Дополнительно центрируем модель
+
+                    // Настраиваем начальное положение модели
                     guitarStand.position.x = -center.x;
                     guitarStand.position.y = -center.y;
                     guitarStand.position.z = -center.z;
@@ -117,74 +416,89 @@
                 undefined,
                 function (error) {
                     console.error('Ошибка загрузки 3D-модели:', error);
+                    // Если модель не загрузилась, создаем простую заглушку
                     createFallbackModel();
                 }
             );
-            
+
             // Добавляем контролы для вращения
             controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
             controls.dampingFactor = 0.05;
-            
+
+            // Обработка изменения размера окна
             window.addEventListener('resize', onWindowResize);
+
+            // Запускаем анимацию
             animate();
         }
-        
-        // Остальные функции (createFallbackModel, onWindowResize, animate) остаются без изменений
+
         function createFallbackModel() {
+            // Создаем простую модель, если не удалось загрузить файл
             const group = new THREE.Group();
-            
+
+            // Основание стойки
             const baseGeometry = new THREE.BoxGeometry(2, 0.2, 1);
             const baseMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
             const base = new THREE.Mesh(baseGeometry, baseMaterial);
             base.position.y = -1;
             group.add(base);
-            
+
+            // Стойка
             const standGeometry = new THREE.CylinderGeometry(0.1, 0.1, 1.5, 16);
             const standMaterial = new THREE.MeshPhongMaterial({ color: 0x003366 });
             const stand = new THREE.Mesh(standGeometry, standMaterial);
             stand.position.y = -0.25;
             group.add(stand);
-            
+
+            // Верхняя часть
+            const neckHolderGeometry = new THREE.BoxGeometry(0.5, 0.1, 0.3);
+            const neckHolderMaterial = new THREE.MeshPhongMaterial({ color: 0x666666 });
+            const neckHolder = new THREE.Mesh(neckHolderGeometry, neckHolderMaterial);
+            neckHolder.position.y = 0.5;
+            neckHolder.position.z = 0.4;
+            group.add(neckHolder);
+
             scene.add(group);
             guitarStand = group;
         }
-        
+
         function onWindowResize() {
             camera.aspect = document.getElementById('model-container').clientWidth / 400;
             camera.updateProjectionMatrix();
             renderer.setSize(document.getElementById('model-container').clientWidth, 400);
         }
-        
+
         function animate() {
             requestAnimationFrame(animate);
-            
+
             if (autoRotate && guitarStand) {
                 guitarStand.rotation.y += 0.005;
             }
-            
+
             controls.update();
             renderer.render(scene, camera);
         }
-        
-        // Управление кнопками
-        document.getElementById('rotate-model').addEventListener('click', function() {
+
+        // Кнопки управления
+        document.getElementById('rotate-model').addEventListener('click', function () {
             autoRotate = !autoRotate;
             this.textContent = autoRotate ? 'Стоп' : 'Автоповорот';
             this.style.backgroundColor = autoRotate ? '#004080' : '#003366';
         });
-        
-        document.getElementById('reset-model').addEventListener('click', function() {
+
+        document.getElementById('reset-model').addEventListener('click', function () {
             controls.reset();
             camera.position.z = 5;
             if (guitarStand) {
                 guitarStand.rotation.set(0, 0, 0);
             }
         });
-        
+
+        // Инициализация при загрузке страницы
         window.onload = init3DModel;
-        
-        // Бегущая строка
+
+        // Анимация бегущей строки
         const marqueeContent = document.querySelector('.marquee-content');
         marqueeContent.innerHTML += ' ' + marqueeContent.innerHTML;
     </script>
